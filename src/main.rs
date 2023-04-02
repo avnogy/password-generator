@@ -1,6 +1,6 @@
 use clap::Parser;
-use rand::seq::IteratorRandom;
-
+use rand::Rng;
+use std::iter;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
@@ -17,22 +17,19 @@ fn main() {
 }
 
 fn generate(length: usize) -> String {
-    let lowercase_letters = "abcdefghijklmnopqrstuvwxyz";
-    let uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let digits = "0123456789";
-    let special_chars = "!@#$%^&*()_+{}[];':\"\\|,.<>?/";
+    let lowercase_letters = "abcdefghijklmnopqrstuvwxyz".as_bytes();
+    let uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".as_bytes();
+    let digits = "0123456789".as_bytes();
+    let special_chars = "!@#$%^&*()_+{}[];':\"\\|,.<>?/".as_bytes();
 
-    let mut char_set = String::new();
-    char_set.push_str(lowercase_letters);
-    char_set.push_str(uppercase_letters);
-    char_set.push_str(digits);
-    char_set.push_str(special_chars);
+    let mut char_set = Vec::new();
+    char_set.extend_from_slice(lowercase_letters);
+    char_set.extend_from_slice(uppercase_letters);
+    char_set.extend_from_slice(digits);
+    char_set.extend_from_slice(special_chars);
 
     let mut rng = rand::thread_rng();
-    let password: String = char_set
-        .chars()
-        .choose_multiple(&mut rng, length)
-        .iter()
-        .collect();
-    password
+    let one_char = || char_set[rng.gen_range(0..char_set.len())] as char;   
+    iter::repeat_with(one_char).take(length).collect()
+
 }
