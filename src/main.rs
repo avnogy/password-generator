@@ -28,17 +28,12 @@ fn main() {
 }
 
 fn generate(length: usize,uppercase: bool,digits: bool,special: bool) -> String {
-    let lowercase_letters = "abcdefghijklmnopqrstuvwxyz".as_bytes();
-    let uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".as_bytes();
-    let digits_letters = "0123456789".as_bytes();
-    let special_chars = "!@#$%^&*()_+{}[];':\"\\|,.<>?/".as_bytes();
-
     // creating the char set
     let mut char_set = Vec::new();
-    char_set.extend_from_slice(lowercase_letters);
-    if uppercase {char_set.extend_from_slice(uppercase_letters)};
-    if digits {char_set.extend_from_slice(digits_letters)};
-    if special {char_set.extend_from_slice(special_chars)};
+    char_set.extend_from_slice("abcdefghijklmnopqrstuvwxyz".as_bytes());
+    if uppercase {char_set.extend_from_slice("ABCDEFGHIJKLMNOPQRSTUVWXYZ".as_bytes())};
+    if digits {char_set.extend_from_slice("0123456789".as_bytes())};
+    if special {char_set.extend_from_slice("!@#$%^&*()_+{}[];':\"\\|,.<>?/".as_bytes())};
 
     // generating string
     let mut rng = rand::thread_rng();
