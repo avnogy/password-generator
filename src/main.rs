@@ -7,16 +7,20 @@ struct Args {
     /// length of password 
     #[arg(short, long, default_value_t = 8)]
     length: usize,
+
+    #[arg(short, long , action)]
+    uppercase: bool,
 }
 
 fn main() {
     let length = Args::parse().length; 
+    let uppercase = Args::parse().uppercase; 
 
 
-    println!("{}",generate(length.clone()));
+    println!("{}",generate(length.clone(),uppercase));
 }
 
-fn generate(length: usize) -> String {
+fn generate(length: usize,uppercase: bool) -> String {
     let lowercase_letters = "abcdefghijklmnopqrstuvwxyz".as_bytes();
     let uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".as_bytes();
     let digits = "0123456789".as_bytes();
@@ -24,7 +28,7 @@ fn generate(length: usize) -> String {
 
     let mut char_set = Vec::new();
     char_set.extend_from_slice(lowercase_letters);
-    char_set.extend_from_slice(uppercase_letters);
+    if uppercase {char_set.extend_from_slice(uppercase_letters)};
     char_set.extend_from_slice(digits);
     char_set.extend_from_slice(special_chars);
 
