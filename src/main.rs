@@ -9,6 +9,10 @@ struct Args {
     #[arg(short, long, default_value_t = 8)]
     length: usize,
 
+    /// Include all characters (overrides other flags)
+    #[arg(short, long)]
+    all: bool,
+
     /// Include uppercase letters
     #[arg(short, long)]
     uppercase: bool,
@@ -23,7 +27,8 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::parse(); 
+    let mut args = Args::parse(); 
+    if args.all {[args.uppercase,args.digits,args.special] = [true; 3]};
     println!("{}",generate(args.length,args.uppercase,args.digits,args.special));
 }
 
